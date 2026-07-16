@@ -16,11 +16,10 @@ include_directories(
 )
 
 
-add_executable(
-    EdgeEye
-
+add_executable(EdgeEye
     src/main.cpp
     src/camera.cpp
+    src/fps.cpp
 )
 
 
