@@ -6,45 +6,53 @@ A Linux-based real-time vision monitoring system built with C++ and OpenCV.
 
 EdgeEye is a Linux vision framework designed for real-time camera processing and future AI vision applications.
 
-The project is developed step by step, starting from basic camera acquisition and gradually extending to multithreading, GUI interaction, and edge AI deployment.
+The project is developed incrementally, starting from camera acquisition and gradually evolving into a complete edge AI vision system.
+
+---
 
 ## Features
 
-### v0.2
+Current features include:
 
-- C++ project structure
-- CMake build system
-- OpenCV integration
 - USB camera capture
 - Real-time camera preview
+- FPS monitoring
+- CMake build system
+- Modular C++ project architecture
 
 ### Planned Features
 
-- FPS monitoring
 - Screenshot capture
 - Video recording
 - Multithreaded camera pipeline
 - Qt graphical interface
 - Serial communication with STM32
 - YOLO object detection
+- Edge AI inference
+
+---
 
 ## Project Structure
 
-```
+```text
 EdgeEye
 │
 ├── CMakeLists.txt
 ├── README.md
 │
 ├── include/
-│   └── camera.hpp
+│   ├── camera.hpp
+│   └── fps.hpp
 │
 ├── src/
 │   ├── main.cpp
-│   └── camera.cpp
+│   ├── camera.cpp
+│   └── fps.cpp
 │
 └── build/
 ```
+
+---
 
 ## Environment
 
@@ -52,6 +60,8 @@ EdgeEye
 - GCC
 - CMake
 - OpenCV
+
+---
 
 ## Build
 
@@ -62,24 +72,34 @@ cmake ..
 make
 ```
 
+---
+
 ## Run
 
 ```bash
 ./EdgeEye
 ```
 
+---
+
 ## Version History
+
+### v0.3
+
+- Added FPS counter module
+- Display real-time FPS on the camera preview
+- Introduced modular performance monitoring
+![v0.3](images/V0.3.png)
+### v0.2
+
+- Integrated OpenCV
+- Added USB camera capture
+- Implemented real-time camera preview
+- Added modular camera class
 
 ### v0.1
 
-- Initial project setup.
+- Initial project setup
 - C++ project structure
 - CMake build system
 - Basic executable framework
-
-### v0.2
-
-- OpenCV camera support.
-- Added camera module
-- Added USB camera capture
-- Added real-time preview
