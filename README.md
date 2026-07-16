@@ -30,20 +30,21 @@ The project is developed step by step, starting from basic camera acquisition an
 
 ## Project Structure
 
+```
 EdgeEye
 │
 ├── CMakeLists.txt
 ├── README.md
 │
 ├── include/
-│ └── camera.hpp
+│   └── camera.hpp
 │
 ├── src/
-│ ├── main.cpp
-│ └── camera.cpp
+│   ├── main.cpp
+│   └── camera.cpp
 │
 └── build/
-
+```
 
 ## Environment
 
@@ -57,23 +58,28 @@ EdgeEye
 ```bash
 mkdir build
 cd build
-
 cmake ..
 make
-Run
+```
+
+## Run
+
+```bash
 ./EdgeEye
-Version History
-v0.1
+```
 
-Initial project setup.
+## Version History
 
-C++ project structure
-CMake build system
-Basic executable framework
-v0.2
+### v0.1
 
-OpenCV camera support.
+- Initial project setup.
+- C++ project structure
+- CMake build system
+- Basic executable framework
 
-Added camera module
-Added USB camera capture
-Added real-time preview
+### v0.2
+
+- OpenCV camera support.
+- Added camera module
+- Added USB camera capture
+- Added real-time preview
