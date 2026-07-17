@@ -1,14 +1,18 @@
 #include "camera.hpp"
 #include "fps.hpp"
+#include "screenshot.hpp"
 
 #include <iostream>
 #include <sstream>
 #include <iomanip>
 
-Camera::Camera()
+
+Camera::Camera(const std::string& screenshotPath)
+    : screenshot(screenshotPath)
 {
 
 }
+
 
 bool Camera::open()
 {
@@ -25,11 +29,13 @@ bool Camera::open()
     return true;
 }
 
+
 void Camera::run()
 {
     cv::Mat frame;
 
     FPSCounter fps;
+
 
     while (true)
     {
@@ -38,13 +44,18 @@ void Camera::run()
         if (frame.empty())
             break;
 
+
         fps.update();
 
+
         std::ostringstream ss;
+
         ss << std::fixed
            << std::setprecision(1)
            << "FPS: "
            << fps.getFPS();
+
+
 
         cv::putText(
             frame,
@@ -56,10 +67,23 @@ void Camera::run()
             2
         );
 
-        cv::imshow("EdgeEye Camera", frame);
+
+        cv::imshow(
+            "EdgeEye Camera",
+            frame
+        );
+
+
         char key = cv::waitKey(1);
 
+
         if (key == 'q')
+        {
             break;
+        }
+        else if (key == 's')
+        {
+            screenshot.save(frame);
+        }
     }
 }

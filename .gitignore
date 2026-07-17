@@ -1,3 +1,6 @@
 build/
-*.o
-*.out
+screenshot/
+screenshots/
+*.png
+*.jpg
+*.jpeg

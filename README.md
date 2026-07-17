@@ -19,10 +19,9 @@ Current features include:
 - FPS monitoring
 - CMake build system
 - Modular C++ project architecture
-
+- Screenshot capture
 ### Planned Features
 
-- Screenshot capture
 - Video recording
 - Multithreaded camera pipeline
 - Qt graphical interface
@@ -39,15 +38,17 @@ EdgeEye
 │
 ├── CMakeLists.txt
 ├── README.md
-│
+├── config.json
 ├── include/
 │   ├── camera.hpp
 │   └── fps.hpp
+│   └── screenshot.hpp
 │
 ├── src/
 │   ├── main.cpp
 │   ├── camera.cpp
 │   └── fps.cpp
+│   └── screenshot.cpp
 │
 └── build/
 ```
@@ -83,7 +84,12 @@ make
 ---
 
 ## Version History
+### v0.4
 
+- Added screenshot capture module
+- Press `S` to capture and save the current camera frame
+- Added modular screenshot management with independent class design
+- Automatically creates screenshot directory when saving images
 ### v0.3
 
 - Added FPS counter module
