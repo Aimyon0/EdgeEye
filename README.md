@@ -20,9 +20,9 @@ Current features include:
 - CMake build system
 - Modular C++ project architecture
 - Screenshot capture
+- video recording
 ### Planned Features
 
-- Video recording
 - Multithreaded camera pipeline
 - Qt graphical interface
 - Serial communication with STM32
@@ -43,13 +43,15 @@ EdgeEye
 │   ├── camera.hpp
 │   └── fps.hpp
 │   └── screenshot.hpp
+│   └── video.hpp
 │
 ├── src/
 │   ├── main.cpp
 │   ├── camera.cpp
 │   └── fps.cpp
 │   └── screenshot.cpp
-│
+│   └── video.cpp
+│   
 └── build/
 ```
 
@@ -84,12 +86,19 @@ make
 ---
 
 ## Version History
+### v0.5
+
+- Added video recording module
+- Press `R` to start and stop the current camera video recording
+- Added modular video recording management with independent class design
+- Automatically creates video directory when saving videos
 ### v0.4
 
 - Added screenshot capture module
 - Press `S` to capture and save the current camera frame
 - Added modular screenshot management with independent class design
 - Automatically creates screenshot directory when saving images
+![v0.4](images/V0.4.png)
 ### v0.3
 
 - Added FPS counter module

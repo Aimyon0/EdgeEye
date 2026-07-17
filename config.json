@@ -1,3 +1,4 @@
 {
-    "screenshot_path": "./screenshot"
+    "screenshot_path":"./screenshot",
+    "video_path":"./video"
 }

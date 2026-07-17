@@ -21,6 +21,7 @@ add_executable(EdgeEye
     src/camera.cpp
     src/fps.cpp
     src/screenshot.cpp
+    src/video.cpp
 )
 
 

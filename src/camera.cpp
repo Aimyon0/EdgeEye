@@ -1,18 +1,16 @@
 #include "camera.hpp"
 #include "fps.hpp"
-#include "screenshot.hpp"
 
 #include <iostream>
 #include <sstream>
 #include <iomanip>
 
-
-Camera::Camera(const std::string& screenshotPath)
-    : screenshot(screenshotPath)
+Camera::Camera(const std::string& screenshotPath,
+               const std::string& videoPath)
+    : screenshot(screenshotPath),
+      recorder(videoPath)
 {
-
 }
-
 
 bool Camera::open()
 {
@@ -29,13 +27,11 @@ bool Camera::open()
     return true;
 }
 
-
 void Camera::run()
 {
     cv::Mat frame;
 
     FPSCounter fps;
-
 
     while (true)
     {
@@ -44,9 +40,7 @@ void Camera::run()
         if (frame.empty())
             break;
 
-
         fps.update();
-
 
         std::ostringstream ss;
 
@@ -54,8 +48,6 @@ void Camera::run()
            << std::setprecision(1)
            << "FPS: "
            << fps.getFPS();
-
-
 
         cv::putText(
             frame,
@@ -67,23 +59,55 @@ void Camera::run()
             2
         );
 
+        if (recorder.isRecording())
+        {
+            recorder.write(frame);
 
-        cv::imshow(
-            "EdgeEye Camera",
-            frame
-        );
+            cv::putText(
+                frame,
+                "REC",
+                cv::Point(20,70),
+                cv::FONT_HERSHEY_SIMPLEX,
+                0.8,
+                cv::Scalar(0,0,255),
+                2
+            );
+        }
 
+        cv::imshow("EdgeEye Camera", frame);
 
         char key = cv::waitKey(1);
 
-
         if (key == 'q')
         {
+            if (recorder.isRecording())
+                recorder.stop();
+
             break;
         }
         else if (key == 's')
         {
             screenshot.save(frame);
+        }
+        else if (key == 'r')
+        {
+            if (!recorder.isRecording())
+            {
+                double cameraFPS = cap.get(cv::CAP_PROP_FPS);
+
+                if (cameraFPS <= 1)
+                    cameraFPS = 30;
+
+                recorder.start(
+                    frame.cols,
+                    frame.rows,
+                    cameraFPS
+                );
+            }
+            else
+            {
+                recorder.stop();
+            }
         }
     }
 }
