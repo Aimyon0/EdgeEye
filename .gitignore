@@ -1,6 +1,7 @@
 build/
 screenshot/
 screenshots/
-*.png
 *.jpg
 *.jpeg
+!images/
+!images/*.png
