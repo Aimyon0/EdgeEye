@@ -2,28 +2,21 @@
 #define CAMERA_HPP
 
 #include <opencv2/opencv.hpp>
-
 #include "screenshot.hpp"
-#include "video.hpp"
 
 #include <string>
+
 
 class Camera
 {
 public:
-    Camera(const std::string& screenshotPath,
-           const std::string& videoPath);
-
     bool open();
 
-    void run();
-
+    bool read(cv::Mat& frame);
+    double getFPS() const;
 private:
     cv::VideoCapture cap;
-
-    Screenshot screenshot;
-
-    VideoRecorder recorder;
 };
+
 
 #endif

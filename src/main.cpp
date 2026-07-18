@@ -1,8 +1,15 @@
 #include "camera.hpp"
+#include "fps.hpp"
+#include "screenshot.hpp"
+#include "video.hpp"
 
-#include <iostream>
-#include <fstream>
+#include <opencv2/opencv.hpp>
 #include <nlohmann/json.hpp>
+
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <iomanip>
 
 using json = nlohmann::json;
 
@@ -10,6 +17,9 @@ int main()
 {
     std::cout << "EdgeEye start" << std::endl;
 
+    /*-------------------------
+      Load Config
+    -------------------------*/
     std::ifstream file("config.json");
 
     if (!file.is_open())
@@ -21,15 +31,100 @@ int main()
     json config;
     file >> config;
 
-    Camera camera(
-        config["screenshot_path"].get<std::string>(),
+    Screenshot screenshot(
+        config["screenshot_path"].get<std::string>()
+    );
+
+    VideoRecorder recorder(
         config["video_path"].get<std::string>()
     );
+
+    Camera camera;
 
     if (!camera.open())
         return -1;
 
-    camera.run();
+    FPSCounter fps;
+
+    cv::Mat frame;
+
+    /*-------------------------
+      Main Loop
+    -------------------------*/
+    while (camera.read(frame))
+    {
+        fps.update();
+
+        // 录像
+        if (recorder.isRecording())
+        {
+            recorder.write(frame);
+
+            cv::putText(
+                frame,
+                "REC",
+                cv::Point(20, 70),
+                cv::FONT_HERSHEY_SIMPLEX,
+                0.8,
+                cv::Scalar(0, 0, 255),
+                2
+            );
+        }
+
+        // FPS
+        std::ostringstream ss;
+        ss << std::fixed
+           << std::setprecision(1)
+           << "FPS: "
+           << fps.getFPS();
+
+        cv::putText(
+            frame,
+            ss.str(),
+            cv::Point(20, 35),
+            cv::FONT_HERSHEY_SIMPLEX,
+            0.8,
+            cv::Scalar(0, 255, 0),
+            2
+        );
+
+        cv::imshow("EdgeEye Camera", frame);
+
+        char key = cv::waitKey(1);
+
+        switch (key)
+        {
+        case 'q':
+            if (recorder.isRecording())
+                recorder.stop();
+
+            return 0;
+
+        case 's':
+            screenshot.save(frame);
+            break;
+
+        case 'r':
+            if (!recorder.isRecording())
+            {
+                double cameraFPS = camera.getFPS();
+
+                if (cameraFPS <= 1)
+                    cameraFPS = 30;
+
+                recorder.start(
+                    frame.cols,
+                    frame.rows,
+                    cameraFPS
+                );
+            }
+            else
+            {
+                recorder.stop();
+            }
+            break;
+        }
+    }
 
     return 0;
 }
