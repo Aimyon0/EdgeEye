@@ -5,7 +5,7 @@
 
 #include <opencv2/opencv.hpp>
 #include <nlohmann/json.hpp>
-
+#include <onnxruntime_cxx_api.h>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -16,7 +16,9 @@ using json = nlohmann::json;
 int main()
 {
     std::cout << "EdgeEye start" << std::endl;
+    Ort::Env env(ORT_LOGGING_LEVEL_WARNING, "EdgeEye");
 
+    std::cout << "ONNX Runtime loaded successfully." << std::endl;
     /*-------------------------
       Load Config
     -------------------------*/
